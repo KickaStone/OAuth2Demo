@@ -1,6 +1,6 @@
 button = document.getElementById("OAuth_Button")
 
-redirect_uri = "https://localhost:8080/files"
+redirect_uri = "https://localhost:8080/oauth"
 client_id = "604421121209-40j3h23i02eulnvn12lgakd2jtdb0t9p.apps.googleusercontent.com"
 scope = "https://www.googleapis.com/auth/drive"
 access_type = "offline"
@@ -40,6 +40,29 @@ function oauthSignIn() {
     form.submit();
 }
 
-button = document.getElementById('OAuth_Button')
-button.addEventListener("click", () => { oauthSignIn() })
+function handleOAuthCallback() {
+    // if no parameters, check if we are already authenticated
+    if(window.location.hash.length === 0) {
+        if(isAuthenticated) {
+            console.log("Already authenticated");
+            return;
+        }else{
+            console.log("Not authenticated, signing in");
+            oauthSignIn();
+        }
+    }else{
+        // if there are parameters, parse the access token
+        const urlParams = new URLSearchParams(window.location.hash.substring(1));
+        const accessToken = urlParams.get('access_token');
 
+        if(accessToken) {
+            console.log("Access token: ", accessToken);
+            isAuthenticated = true;
+        } else {
+            console.log("No access token found");
+            isAuthenticated = false;
+        }
+    }
+}
+
+window.onload = handleOAuthCallback;
