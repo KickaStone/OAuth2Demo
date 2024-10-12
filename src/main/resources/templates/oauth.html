@@ -2,17 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Files</title>
+    <title>Google OAuth2</title>
 
 </head>
 <body>
     <h1>Please authorize</h1>
-    <p th:text="${isAuthenticated}"></p>
-    <p th:text="${accessToken}"></p>
+    <button id="oauth-logout-button">Logout</button>
+
+    <div id="oauth-code">
+        <button id="oauth-code-button">Get Code</button>
+        <p id="oauth-code-text"></p>
+    </div>
+
+    <div id="oauth-token">
+        <button id="oauth-token-button">Get Token</button>
+        <p id="oauth-access-token-text"></p>
+        <p id="oauth-refresh-token-text"></p>
+    </div>
+    <button id="oauth-refresh-token-button">Refresh Token</button>
 </body>
 <script>
-    var isAuthenticated = [[${isAuthenticated}]];
+    var hasCode = [[${hasCode}]];
+    var hasToken = [[${hasToken}]];
     var accessToken = "[[${accessToken}]]";
+    var refreshToken = "[[${refreshToken}]]";
+    var code = "[[${code}]]";
 </script>
 <script type="text/javascript" th:src="@{/oauth.js}"></script>
 </html>
